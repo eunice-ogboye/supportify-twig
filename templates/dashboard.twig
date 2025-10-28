@@ -1,0 +1,161 @@
+{% extends "base.twig" %}
+
+{% block title %}Dashboard - Supportly{% endblock %}
+
+{% block styles %}
+<style>
+    .dashboard {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dashboard-header {
+        background: white;
+        padding: 25px 0;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .dashboard-header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .welcome {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .welcome h1 {
+        font-size: 28px;
+        color: #1e293b;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin: 60px 0;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 40px 30px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+    }
+
+    .stat-card.blue::before {
+        background: #3b82f6;
+    }
+
+    .stat-card.green::before {
+        background: #10b981;
+    }
+
+    .stat-card.cyan::before {
+        background: #06b6d4;
+    }
+
+    .stat-card.gray::before {
+        background: #64748b;
+    }
+
+    .stat-value {
+        font-size: 48px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 10px;
+    }
+
+    .stat-label {
+        font-size: 18px;
+        color: #64748b;
+    }
+
+    .cta-section {
+        text-align: center;
+        background: white;
+        border-radius: 12px;
+        padding: 80px 40px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        margin-bottom: 60px;
+    }
+
+    .cta-section h2 {
+        font-size: 36px;
+        color: #1e293b;
+        margin-bottom: 20px;
+    }
+
+    .cta-section p {
+        font-size: 18px;
+        color: #64748b;
+        margin-bottom: 40px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="dashboard-header-content">
+                <div class="welcome">
+                    <h1>Welcome, {{ user.name }} 👋</h1>
+                </div>
+                <form method="POST" action="index.php" style="display: inline;">
+                    <input type="hidden" name="action" value="logout">
+                    <button type="submit" class="btn btn-danger btn-sm">Logout</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="flex: 1; padding-top: 40px;">
+        <div class="stats-grid">
+            <div class="stat-card blue">
+                <div class="stat-value">{{ stats.total }}</div>
+                <div class="stat-label">Total Tickets</div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-value">{{ stats.open }}</div>
+                <div class="stat-label">Open Tickets</div>
+            </div>
+            <div class="stat-card cyan">
+                <div class="stat-value">{{ stats.ongoing }}</div>
+                <div class="stat-label">Ongoing Tickets</div>
+            </div>
+            <div class="stat-card gray">
+                <div class="stat-value">{{ stats.resolved }}</div>
+                <div class="stat-label">Resolved Tickets</div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Manage Your Tickets</h2>
+            <p>View, edit, and track all your tickets in one place.</p>
+            <a href="index.php?page=tickets" class="btn btn-primary">Go to Ticket Management</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Supportly. All rights reserved.</p>
+        </div>
+    </footer>
+</div>
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends "base.twig" %}
+
+{% block title %}Ticket Management - Supportly{% endblock %}
+
+{% block styles %}
+<style>
+    .tickets-page {
+        min-height: 100vh;
+        padding-bottom: 40px;
+    }
+
+    .page-header {
+        background: white;
+        padding: 25px 0;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        margin-bottom: 40px;
+    }
+
+    .page-header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .page-title {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .page-title-icon {
+        background: #ef4444;
+        color: white;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    .page-title h1 {
+        font-size: 28px;
+        color: #2563eb;
+    }
+
+    .create-section {
+        margin-bottom: 60px;
+    }
+
+    .section-title {
+        font-size: 24px;
+        color: #2d3748;
+        margin-bottom: 30px;
+    }
+
+    .tickets-list-title {
+        font-size: 32px;
+        color: #1e293b;
+        margin-bottom: 40px;
+    }
+
+    .tickets-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        gap: 30px;
+    }
+
+    .ticket-card {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .ticket-title {
+        font-size: 20px;
+        color: #2563eb;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+    .ticket-description {
+        color: #64748b;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+
+    .ticket-status {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    .ticket-status.open {
+        background: #d1fae5;
+        color: #065f46;
+    }
+
+    .ticket-status.ongoing {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .ticket-status.resolved {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .ticket-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    @media (max-width: 768px) {
+        .tickets-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .page-header-content {
+            flex-direction: column;
+            gap: 20px;
+            align-items: flex-start;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="tickets-page">
+    <header class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <div class="page-title">
+                    <div class="page-title-icon">🎫</div>
+                    <h1>Ticket Management</h1>
+                </div>
+                <a href="index.php?page=dashboard" class="btn btn-primary">← Back to Dashboard</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="create-section">
+            <div class="card">
+                <h2 class="section-title">{% if editTicket %}Edit Ticket{% else %}Create New Ticket{% endif %}</h2>
+                <form method="POST" action="index.php">
+                    <input type="hidden" name="action" value="{% if editTicket %}update_ticket{% else %}create_ticket{% endif %}">
+                    {% if editTicket %}
+                        <input type="hidden" name="ticket_id" value="{{ editTicket.id }}">
+                    {% endif %}
+
+                    <div class="form-group">
+                        <label class="form-label">Title <span class="required">*</span></label>
+                        <input type="text" name="title" class="form-input" placeholder="Enter ticket title" value="{{ editTicket.title|default('') }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-textarea" placeholder="Describe the issue...">{{ editTicket.description|default('') }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Status <span class="required">*</span></label>
+                        <select name="status" class="form-select" required>
+                            <option value="Open" {% if editTicket and editTicket.status == 'Open' %}selected{% endif %}>Open</option>
+                            <option value="Ongoing" {% if editTicket and editTicket.status == 'Ongoing' %}selected{% endif %}>Ongoing</option>
+                            <option value="Resolved" {% if editTicket and editTicket.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                        </select>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-primary">{% if editTicket %}Update{% else %}Create{% endif %}</button>
+                        {% if editTicket %}
+                            <a href="index.php?page=tickets" class="btn btn-secondary">Cancel</a>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <h2 class="tickets-list-title">All Tickets</h2>
+        
+        {% if tickets|length > 0 %}
+            <div class="tickets-grid">
+                {% for ticket in tickets %}
+                    <div class="ticket-card">
+                        <h3 class="ticket-title">{{ ticket.title }}</h3>
+                        <p class="ticket-description">{{ ticket.description }}</p>
+                        <span class="ticket-status {{ ticket.status|lower }}">{{ ticket.status }}</span>
+                        <div class="ticket-actions">
+                            <a href="index.php?page=tickets&edit={{ ticket.id }}" class="btn btn-primary btn-sm">Edit</a>
+                            <form method="POST" action="index.php" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this ticket?');">
+                                <input type="hidden" name="action" value="delete_ticket">
+                                <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="card" style="text-align: center; padding: 60px 40px;">
+                <h3 style="color: #64748b; margin-bottom: 10px;">No tickets yet</h3>
+                <p style="color: #94a3b8;">Create your first ticket using the form above.</p>
+            </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}

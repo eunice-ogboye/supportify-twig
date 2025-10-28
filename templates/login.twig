@@ -1,0 +1,91 @@
+{% extends "base.twig" %}
+
+{% block title %}Login - Supportly{% endblock %}
+
+{% block styles %}
+<style>
+    .auth-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+    }
+
+    .auth-card {
+        background: white;
+        border-radius: 12px;
+        padding: 50px 40px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 450px;
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .auth-header h1 {
+        font-size: 32px;
+        color: #1e293b;
+        margin-bottom: 10px;
+    }
+
+    .auth-header p {
+        color: #64748b;
+        font-size: 16px;
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 30px;
+        color: #64748b;
+    }
+
+    .auth-footer a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+
+    .btn-full {
+        width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Welcome Back</h1>
+            <p>Login to access your dashboard</p>
+        </div>
+
+        <form method="POST" action="index.php">
+            <input type="hidden" name="action" value="login">
+            
+            <div class="form-group">
+                <label class="form-label">Email <span class="required">*</span></label>
+                <input type="email" name="email" class="form-input" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password <span class="required">*</span></label>
+                <input type="password" name="password" class="form-input" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Login</button>
+        </form>
+
+        <div class="auth-footer">
+            Don't have an account? <a href="index.php?page=register">Register here</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
