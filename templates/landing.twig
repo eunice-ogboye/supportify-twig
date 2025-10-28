@@ -4,52 +4,91 @@
 
 {% block styles %}
 <style>
-    .hero {
-        padding: 100px 0 150px;
-        text-align: center;
+    body {
+        max-width: 1440px;
+        margin: 0 auto;
+        background: #f8fafc;
+    }
+
+    .alert {
+        padding: 16px 20px;
+        border-radius: 8px;
+        font-size: 15px;
+        line-height: 1.5;
+        margin: 20px auto;
+        max-width: 800px;
+    }
+
+    .alert-success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+    }
+
+    .alert strong {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .hero-section {
         position: relative;
+        padding: 120px 20px 180px;
+        text-align: center;
+        background: #f8fafc;
         overflow: hidden;
     }
 
-    .hero::before {
+    /* Decorative circle - top left */
+    .hero-section::before {
         content: '';
         position: absolute;
-        top: 50px;
-        left: -100px;
-        width: 300px;
-        height: 300px;
+        top: -80px;
+        left: -80px;
+        width: 280px;
+        height: 280px;
         background: #dbeafe;
         border-radius: 50%;
-        z-index: -1;
+        z-index: 0;
     }
 
-    .hero::after {
+    /* Wave background using clip-path */
+    .hero-section::after {
         content: '';
         position: absolute;
-        bottom: -50px;
+        bottom: 0;
         left: 0;
         right: 0;
-        height: 200px;
+        height: 250px;
         background: linear-gradient(180deg, #0ea5e9 0%, #06b6d4 100%);
-        border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-        z-index: -1;
+        clip-path: ellipse(100% 100% at 50% 100%);
+        z-index: 0;
     }
 
-    .hero h1 {
-        font-size: 48px;
-        margin-bottom: 20px;
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .hero-section h1 {
+        font-size: 56px;
+        font-weight: 700;
+        margin-bottom: 30px;
         color: #1e293b;
+        line-height: 1.2;
     }
 
-    .hero h1 .highlight {
+    .hero-section h1 .highlight {
         color: #0ea5e9;
     }
 
-    .hero p {
-        font-size: 18px;
+    .hero-section p {
+        font-size: 20px;
         color: #64748b;
-        max-width: 700px;
-        margin: 0 auto 40px;
+        max-width: 750px;
+        margin: 0 auto 50px;
         line-height: 1.6;
     }
 
@@ -58,17 +97,59 @@
         gap: 20px;
         justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
     }
 
-    .features {
-        padding: 80px 0;
+    .btn-hero-primary {
+        background: #0ea5e9;
+        color: white;
+        padding: 16px 40px;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s;
+    }
+
+    .btn-hero-primary:hover {
+        background: #0284c7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+    }
+
+    .btn-hero-secondary {
+        background: white;
+        color: #0ea5e9;
+        padding: 16px 40px;
+        border: 2px solid #0ea5e9;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s;
+    }
+
+    .btn-hero-secondary:hover {
+        background: #f0f9ff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+    }
+
+    .features-section {
+        padding: 100px 20px;
         background: white;
     }
 
-    .features h2 {
+    .features-section h2 {
         text-align: center;
-        font-size: 36px;
-        margin-bottom: 60px;
+        font-size: 48px;
+        font-weight: 700;
+        margin-bottom: 80px;
         color: #1e293b;
     }
 
@@ -76,78 +157,143 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 40px;
-        max-width: 1100px;
+        max-width: 1200px;
         margin: 0 auto;
     }
 
-    .feature-card {
+    .feature-box {
         background: #f8fafc;
-        padding: 40px 30px;
-        border-radius: 12px;
+        padding: 50px 35px;
+        border-radius: 16px;
         text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s;
+    }
+
+    .feature-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
 
     .feature-icon {
-        font-size: 32px;
-        margin-bottom: 20px;
+        font-size: 40px;
+        margin-bottom: 25px;
+        display: block;
     }
 
-    .feature-card h3 {
-        font-size: 22px;
-        margin-bottom: 15px;
+    .feature-box h3 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 20px;
         color: #1e293b;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 12px;
     }
 
-    .feature-card h3 .icon {
+    .feature-box h3 .icon-text {
         color: #0ea5e9;
     }
 
-    .feature-card p {
+    .feature-box p {
         color: #64748b;
-        line-height: 1.6;
+        line-height: 1.7;
+        font-size: 16px;
+    }
+
+    .footer-section {
+        background: #0ea5e9;
+        padding: 30px 20px;
+        text-align: center;
+    }
+
+    .footer-section p {
+        color: white;
+        font-size: 16px;
+        margin: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero-section h1 {
+            font-size: 36px;
+        }
+
+        .hero-section p {
+            font-size: 18px;
+        }
+
+        .features-section h2 {
+            font-size: 32px;
+        }
+
+        .hero-buttons {
+            flex-direction: column;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .btn-hero-primary,
+        .btn-hero-secondary {
+            width: 100%;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<section class="hero">
-    <div class="container">
+<section class="hero-section">
+    <div class="hero-content">
+        {% if success %}
+            <div class="alert alert-success">
+                <strong>✓ Success</strong>
+                {{ success }}
+            </div>
+        {% endif %}
+
         <h1>Welcome to <span class="highlight">Supportly</span></h1>
         <p>Manage your support tickets seamlessly — track, resolve, and stay organized all in one beautiful dashboard.</p>
         <div class="hero-buttons">
-            <a href="index.php?page=login" class="btn btn-primary">Login</a>
-            <a href="index.php?page=register" class="btn btn-outline">Get Started</a>
+            <a href="index.php?page=login" class="btn-hero-primary">Login</a>
+            <a href="index.php?page=register" class="btn-hero-secondary">Get Started</a>
         </div>
     </div>
 </section>
 
-<section class="features">
-    <div class="container">
-        <h2>Why Choose Supportly?</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <h3><span class="icon">🔒</span> Secure Access</h3>
-                <p>Your account and ticket data are safely stored with session-based protection.</p>
-            </div>
-            <div class="feature-card">
-                <h3><span class="icon">⚡</span> Fast Management</h3>
-                <p>Create, view, edit, and resolve tickets in seconds with smooth, real-time updates.</p>
-            </div>
-            <div class="feature-card">
-                <h3><span class="icon">📊</span> Smart Dashboard</h3>
-                <p>Get insights at a glance — open tickets, resolved issues, and progress tracking.</p>
-            </div>
+<section class="features-section">
+    <h2>Why Choose Supportly?</h2>
+    <div class="features-grid">
+        <div class="feature-box">
+            <span class="feature-icon">🔒</span>
+            <h3><span class="icon-text">Secure Access</span></h3>
+            <p>Your account and ticket data are safely stored with session-based protection.</p>
+        </div>
+        <div class="feature-box">
+            <span class="feature-icon">⚡</span>
+            <h3><span class="icon-text">Fast Management</span></h3>
+            <p>Create, view, edit, and resolve tickets in seconds with smooth, real-time updates.</p>
+        </div>
+        <div class="feature-box">
+            <span class="feature-icon">📊</span>
+            <h3><span class="icon-text">Smart Dashboard</span></h3>
+            <p>Get insights at a glance — open tickets, resolved issues, and progress tracking.</p>
         </div>
     </div>
 </section>
 
-<footer class="footer">
-    <div class="container">
-        <p>© 2025 Supportly. All Rights Reserved.</p>
-    </div>
+<footer class="footer-section">
+    <p>© 2025 Supportly. All Rights Reserved.</p>
 </footer>
 {% endblock %}

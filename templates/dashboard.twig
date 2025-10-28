@@ -86,6 +86,25 @@
         color: #64748b;
     }
 
+    .alert {
+        padding: 16px 20px;
+        border-radius: 8px;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .alert-success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+    }
+
+    .alert strong {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 5px;
+    }
+
     .cta-section {
         text-align: center;
         background: white;
@@ -105,6 +124,19 @@
         font-size: 18px;
         color: #64748b;
         margin-bottom: 40px;
+    }
+
+    .footer-section {
+        background: #0ea5e9;
+        padding: 30px 20px;
+        text-align: center;
+        margin-top: auto;
+    }
+
+    .footer-section p {
+        color: white;
+        font-size: 16px;
+        margin: 0;
     }
 </style>
 {% endblock %}
@@ -126,6 +158,13 @@
     </header>
 
     <main class="container" style="flex: 1; padding-top: 40px;">
+        {% if success %}
+            <div class="alert alert-success" style="margin-bottom: 30px;">
+                <strong>✓ Success</strong>
+                {{ success }}
+            </div>
+        {% endif %}
+
         <div class="stats-grid">
             <div class="stat-card blue">
                 <div class="stat-value">{{ stats.total }}</div>

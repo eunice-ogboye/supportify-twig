@@ -117,6 +117,44 @@
         justify-content: flex-end;
     }
 
+    .alert {
+        padding: 16px 20px;
+        border-radius: 8px;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .alert-error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+    }
+
+    .alert-success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+    }
+
+    .alert strong {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .footer-section {
+        background: #0ea5e9;
+        padding: 30px 20px;
+        text-align: center;
+        margin-top: 60px;
+    }
+
+    .footer-section p {
+        color: white;
+        font-size: 16px;
+        margin: 0;
+    }
+
     @media (max-width: 768px) {
         .tickets-grid {
             grid-template-columns: 1fr;
@@ -146,6 +184,20 @@
     </header>
 
     <main class="container">
+        {% if error %}
+            <div class="alert alert-error" style="margin-bottom: 30px;">
+                <strong>⚠️ Error</strong>
+                {{ error|raw }}
+            </div>
+        {% endif %}
+
+        {% if success %}
+            <div class="alert alert-success" style="margin-bottom: 30px;">
+                <strong>✓ Success</strong>
+                {{ success }}
+            </div>
+        {% endif %}
+
         <div class="create-section">
             <div class="card">
                 <h2 class="section-title">{% if editTicket %}Edit Ticket{% else %}Create New Ticket{% endif %}</h2>
