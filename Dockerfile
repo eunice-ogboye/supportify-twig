@@ -1,14 +1,23 @@
-FROM php:8.2-cli
+# Use official PHP image
+FROM php:8.2-apache
+
+# Set working directory
+WORKDIR /var/www/html
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN apt-get update && apt-get install -y unzip git \
+    && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    && rm composer-setup.php
 
-WORKDIR /app
+# Copy all files to container
+COPY . .
 
-COPY . /app
-
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-EXPOSE 8000
+# Expose port
+EXPOSE 80
 
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+# Start Apache server
+CMD ["apache2-foreground"]
