@@ -4,6 +4,7 @@
     "type": "project",
     "require": {
         "php": "^7.4 || ^8.0 || ^8.1 || ^8.2",
+        "symfony/deprecation-contracts": "^3.6",
         "twig/twig": "^3.8"
     },
     "config": {

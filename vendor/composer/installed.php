@@ -3,7 +3,7 @@
         'name' => 'supportly/ticket-management',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '54b8a396ac0e7df182c5fb3a53f75ba3e2aee47b',
+        'reference' => '949d107fc1fa20b587a7ba300b1521e3e915aad5',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'supportly/ticket-management' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '54b8a396ac0e7df182c5fb3a53f75ba3e2aee47b',
+            'reference' => '949d107fc1fa20b587a7ba300b1521e3e915aad5',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
