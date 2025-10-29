@@ -1,0 +1,21 @@
+# Composer
+vendor/
+
+# Cache
+cache/
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
