@@ -22,8 +22,7 @@ COPY . .
 RUN a2enmod rewrite
 
 # Set permissions (important for Laravel)
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage
+RUN chown -R www-data:www-data /var/www/html
 
 # Expose port
 EXPOSE 80
